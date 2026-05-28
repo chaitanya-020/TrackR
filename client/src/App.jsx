@@ -5,8 +5,8 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import Applications from './pages/Applications';
 
-// Layout for authenticated pages — wraps Navbar around the content
 const AuthenticatedLayout = ({ children }) => (
   <>
     <Navbar />
@@ -14,7 +14,6 @@ const AuthenticatedLayout = ({ children }) => (
   </>
 );
 
-// Redirect logged-in users away from /login and /signup
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return null;
@@ -28,27 +27,25 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
+            element={<PublicRoute><Login /></PublicRoute>}
           />
           <Route
             path="/signup"
-            element={
-              <PublicRoute>
-                <Signup />
-              </PublicRoute>
-            }
+            element={<PublicRoute><Signup /></PublicRoute>}
           />
           <Route
             path="/"
             element={
               <ProtectedRoute>
-                <AuthenticatedLayout>
-                  <Dashboard />
-                </AuthenticatedLayout>
+                <AuthenticatedLayout><Dashboard /></AuthenticatedLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/applications"
+            element={
+              <ProtectedRoute>
+                <AuthenticatedLayout><Applications /></AuthenticatedLayout>
               </ProtectedRoute>
             }
           />

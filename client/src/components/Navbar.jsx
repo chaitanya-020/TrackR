@@ -1,24 +1,47 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Briefcase } from 'lucide-react';
+import { LogOut, Briefcase, LayoutDashboard, List } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const navLinkClass = (path) =>
+    `flex items-center gap-1.5 px-3 py-2 text-sm rounded-md transition ${
+      location.pathname === path
+        ? 'bg-primary-50 text-primary-700 font-medium'
+        : 'text-gray-600 hover:bg-gray-100'
+    }`;
+
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary-600">
-            <Briefcase size={24} />
-            TrackR
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary-600">
+              <Briefcase size={24} />
+              TrackR
+            </Link>
+
+            {user && (
+              <div className="hidden sm:flex items-center gap-1">
+                <Link to="/" className={navLinkClass('/')}>
+                  <LayoutDashboard size={16} />
+                  Dashboard
+                </Link>
+                <Link to="/applications" className={navLinkClass('/applications')}>
+                  <List size={16} />
+                  Applications
+                </Link>
+              </div>
+            )}
+          </div>
 
           {user && (
             <div className="flex items-center gap-4">
