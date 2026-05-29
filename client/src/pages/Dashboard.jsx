@@ -13,15 +13,14 @@ import StatusBreakdownChart from '../components/StatusBreakdownChart';
 import WeeklyApplicationsChart from '../components/WeeklyApplicationsChart';
 import UpcomingNextSteps from '../components/UpcomingNextSteps';
 import RecentApplications from '../components/RecentApplications';
+import DashboardSkeleton from '../components/DashboardSkeleton';
 
-// Statuses that count as "active" — not closed out yet
 const ACTIVE_STATUSES = ['Applied', 'OA', 'Phone Screen', 'Technical', 'Onsite'];
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { stats, recentApps, upcomingSteps, loading, error } = useStats();
 
-  // Compute "active" count from status breakdown
   const activeCount = stats?.statusBreakdown
     ? stats.statusBreakdown
         .filter((s) => ACTIVE_STATUSES.includes(s._id))
@@ -29,22 +28,17 @@ const Dashboard = () => {
     : 0;
 
   if (loading) {
-    return (
-      <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
             Welcome back, {user?.name?.split(' ')[0]}
           </h1>
-          <p className="text-gray-600 mt-1">Here's how your job search is going.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Here's how your job search is going.</p>
         </div>
         <Link
           to="/applications"
@@ -55,14 +49,12 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* Error */}
       {error && (
-        <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded">
+        <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded">
           {error}
         </div>
       )}
 
-      {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard
           icon={Briefcase}
@@ -92,13 +84,11 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <StatusBreakdownChart statusBreakdown={stats?.statusBreakdown ?? []} />
         <WeeklyApplicationsChart weeklyData={stats?.weeklyData ?? []} />
       </div>
 
-      {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UpcomingNextSteps upcomingSteps={upcomingSteps} />
         <RecentApplications applications={recentApps} />

@@ -1,7 +1,7 @@
 import { STATUS_COLORS } from '../utils/constants';
 
 const StatusBadge = ({ status }) => {
-  const colorClasses = STATUS_COLORS[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+  const colorClasses = STATUS_COLORS[status] || 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600';
 
   return (
     <span

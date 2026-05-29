@@ -19,14 +19,14 @@ const formatDate = (dateString) => {
 
 const UpcomingNextSteps = ({ upcomingSteps = [] }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Calendar size={18} className="text-primary-600" />
-        <h3 className="text-lg font-semibold text-gray-900">Upcoming Next Steps</h3>
+        <Calendar size={18} className="text-primary-600 dark:text-primary-400" />
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Upcoming Next Steps</h3>
       </div>
 
       {upcomingSteps.length === 0 ? (
-        <p className="text-sm text-gray-400 py-8 text-center">
+        <p className="text-sm text-gray-400 dark:text-gray-500 py-8 text-center">
           No upcoming follow-ups in the next 30 days.
         </p>
       ) : (
@@ -34,18 +34,18 @@ const UpcomingNextSteps = ({ upcomingSteps = [] }) => {
           {upcomingSteps.map((app) => (
             <li
               key={app._id}
-              className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+              className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-0"
             >
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                   {app.role} at {app.company}
                 </p>
                 {app.nextStep && (
-                  <p className="text-xs text-gray-500 truncate">{app.nextStep}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{app.nextStep}</p>
                 )}
               </div>
               <div className="flex items-center gap-3 ml-3">
-                <span className="text-sm font-medium text-primary-600">
+                <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
                   {formatDate(app.nextStepDate)}
                 </span>
                 <StatusBadge status={app.status} />
@@ -57,7 +57,7 @@ const UpcomingNextSteps = ({ upcomingSteps = [] }) => {
 
       <Link
         to="/applications"
-        className="flex items-center gap-1 text-sm text-primary-600 hover:underline mt-4"
+        className="flex items-center gap-1 text-sm text-primary-600 dark:text-primary-400 hover:underline mt-4"
       >
         View all applications
         <ArrowRight size={14} />

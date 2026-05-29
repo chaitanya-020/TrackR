@@ -4,10 +4,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class', // ← enables the .dark class strategy
   theme: {
     extend: {
       colors: {
-        // Custom palette — you can tweak these
         primary: {
           50: '#eff6ff',
           500: '#3b82f6',

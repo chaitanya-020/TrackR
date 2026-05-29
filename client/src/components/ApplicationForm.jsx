@@ -13,7 +13,6 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // When opening for edit, populate the form. When opening for create, reset to defaults.
   useEffect(() => {
     if (open) {
       if (application) {
@@ -22,7 +21,6 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
           role: application.role || '',
           status: application.status || 'Applied',
           jobType: application.jobType || 'Full-time',
-          // date inputs need YYYY-MM-DD format
           dateApplied: application.dateApplied
             ? new Date(application.dateApplied).toISOString().split('T')[0]
             : '',
@@ -40,7 +38,7 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
           role: '',
           status: 'Applied',
           jobType: 'Full-time',
-          dateApplied: new Date().toISOString().split('T')[0], // default today
+          dateApplied: new Date().toISOString().split('T')[0],
           location: '',
           salaryMin: '',
           salaryMax: '',
@@ -54,13 +52,11 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
   }, [open, application, reset]);
 
   const submitHandler = async (data) => {
-    // Clean up empty strings → undefined, and convert numbers
     const payload = {
       ...data,
       salaryMin: data.salaryMin ? Number(data.salaryMin) : undefined,
       salaryMax: data.salaryMax ? Number(data.salaryMax) : undefined,
     };
-    // Remove empty optional fields so we don't send blank strings
     Object.keys(payload).forEach((key) => {
       if (payload[key] === '' || payload[key] === undefined) {
         delete payload[key];
@@ -73,28 +69,26 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
   if (!open) return null;
 
   const inputClass =
-    'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500';
-  const labelClass = 'block text-sm font-medium text-gray-700 mb-1';
+    'w-full px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500';
+  const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full my-8 max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900">
+      <div className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full my-8 max-h-[90vh] overflow-y-auto border border-transparent dark:border-gray-800">
+        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {isEdit ? 'Edit Application' : 'Add Application'}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition"
+            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition"
           >
             <X size={20} />
           </button>
         </div>
 
-        {/* Form body */}
         <form onSubmit={handleSubmit(submitHandler)} className="p-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -105,7 +99,7 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
                 placeholder="Google"
               />
               {errors.company && (
-                <p className="text-red-600 text-xs mt-1">{errors.company.message}</p>
+                <p className="text-red-600 dark:text-red-400 text-xs mt-1">{errors.company.message}</p>
               )}
             </div>
 
@@ -117,7 +111,7 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
                 placeholder="Software Engineer"
               />
               {errors.role && (
-                <p className="text-red-600 text-xs mt-1">{errors.role.message}</p>
+                <p className="text-red-600 dark:text-red-400 text-xs mt-1">{errors.role.message}</p>
               )}
             </div>
 
@@ -212,12 +206,11 @@ const ApplicationForm = ({ open, application, onSubmit, onClose }) => {
             />
           </div>
 
-          {/* Footer */}
-          <div className="flex gap-3 justify-end pt-4 border-t border-gray-100">
+          <div className="flex gap-3 justify-end pt-4 border-t border-gray-100 dark:border-gray-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition"
+              className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition"
             >
               Cancel
             </button>

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
@@ -24,6 +25,25 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            className: 'dark:!bg-gray-800 dark:!text-gray-100',
+            style: {
+              fontSize: '14px',
+              padding: '10px 14px',
+              borderRadius: '8px',
+            },
+            success: {
+              iconTheme: { primary: '#10b981', secondary: 'white' },
+            },
+            error: {
+              iconTheme: { primary: '#ef4444', secondary: 'white' },
+              duration: 4000,
+            },
+          }}
+        />
         <Routes>
           <Route
             path="/login"
