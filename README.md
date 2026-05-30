@@ -211,8 +211,3 @@ TrackR/
 Master's in Computer Science, University of Oklahoma
 [github.com/chaitanya-020](https://github.com/chaitanya-020) · [LinkedIn](https://www.linkedin.com/in/<your-handle>)
 
----
-
-## License
-
-MIT
